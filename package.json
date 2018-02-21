@@ -1,0 +1,21 @@
+{
+  "name": "catalog-phyto-xml-to-csv",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "catalog-phyto-xml-to-csv": "./index.js"
+  },
+  "author": "J.D",
+  "license": "MIT",
+  "dependencies": {
+    "xml2js": "^0.4.19",
+    "request": "^2.83.0",
+    "cheerio": "^1.0.0-rc.2",
+    "unzip": "^0.1.11",
+    "jsftp": "^2.1.3"
+  }
+}
