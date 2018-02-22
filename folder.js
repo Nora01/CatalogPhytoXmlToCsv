@@ -26,8 +26,9 @@ function folder(dir) {
      */
     let getXmls = function() {
 
+        let dirFiles = [];
         try {
-            let dirFiles = fs.readdirSync(dir);
+            dirFiles = fs.readdirSync(dir);
         } catch(err) {
             if (err) throw err;
         }

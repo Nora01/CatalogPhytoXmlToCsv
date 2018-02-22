@@ -10,7 +10,7 @@ const fs = require("fs");
  * Export du module
  * @type function
  */
-module.exports = file;
+module.exports = File;
 
 /**
  * Définition du chemin du fichier à utiliser
@@ -19,7 +19,7 @@ module.exports = file;
  * @param {string} filepath - chemin du fichier
  * @return {Object} fonctions publiques utilisables
  */
-function file (filePath) {
+function File (filePath) {
 
     /**
      * Vérification de l'existence du fichier 

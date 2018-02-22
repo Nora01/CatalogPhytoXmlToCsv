@@ -44,7 +44,7 @@ async function download (url, dest, cb){
         //Définition d'un chemin par défaut cross-plateform
         let homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
         if (dest === undefined) {
-            dest = homedir + getFilename(url);
+            dest = homedir + "/" + getFilename(url);
         }
 
         let file = fs.createWriteStream(dest);

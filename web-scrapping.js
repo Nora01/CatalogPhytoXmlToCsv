@@ -39,26 +39,30 @@ function url (url) {
      * @param {string} html - contenu HTML de la page à analyser
      * @return {string} URL de l'archive 
      */
-    function getLink(html) {
+    async function getLink(html) {
+        return new Promise((resolve, reject) => {
+            try {
+                let $ = cheerio.load(html);
+            } catch (err) {
+                if (err) throw new Error(err);
+                reject();
+            }
 
-        try {
             let $ = cheerio.load(html);
-        } catch (err) {
-            if (err) throw new Error(err);
-        }
-        
-        let $ = cheerio.load(html);
-        let links = $('a');
-        let downloadLink = links.filter((i, l) => {
-            return /^http.+decisionAMM.+zip/g.test($(l).attr('href'));
-        });
-        let link = $(downloadLink).attr("href");
+            let links = $('a');
+            let downloadLink = links.filter((i, l) => {
+                return /^http.+decisionAMM.+zip/g.test($(l).attr('href'));
+            });
+            let link = $(downloadLink).attr("href");
 
-        if (link !== undefined) {
-            return link;
-        } else {
-            throw new Error("aucun lien vers les fichiers phyto trouvés dans la page.");
-        }
+            if (link !== undefined) {
+                resolve(link);
+            } else {
+                reject();
+                throw new Error("aucun lien vers les fichiers phyto trouvés dans la page.");
+            }
+        });
+
         
     }
 
@@ -76,11 +80,11 @@ function url (url) {
                     if (!error && response.statusCode === 200) {
                         resolve(html);
                     } else if (statusCode !== 200) {
+                        reject();
                         throw new Error("Code réponse de page : " + response.statusCode);
-                        reject();
                     } else {
-                        throw new Error(error);
                         reject();
+                        throw new Error(error);
                     }
                 })}
         );

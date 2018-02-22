@@ -21,13 +21,8 @@ function log(message) {
 		console.log("[" + event.toLocaleDateString('fr-FR') + " " + event.toLocaleTimeString() + "][ERREUR] " + message);
 	}
 
-	function toWarning () {
-		console.log("[" + event.toLocaleDateString('fr-FR') + " " + event.toLocaleTimeString() + "][WARNING] " + message);
-	}
-	
 	return {
 		toInfo: toInfo, 
-		toError: toError,
-		toWarning: toWarning
+		toError: toError
 	}
 }

@@ -5,6 +5,7 @@
 "use strict";
 const uz = require('adm-zip');
 const fs = require("fs");
+const log = require('./log.js');
 
 /**
  * Export du module
@@ -23,11 +24,9 @@ module.exports = unzip;
  */
 function unzip(file) {
     return new Promise(function(resolve, reject){
-
        //Définition d'un chemin par défaut cross-plateform
         let homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
-        console.log("Extraction de "+file+"...");
-        
+
         //extraction
         try {
             new uz(file).extractAllTo(homedir + "/temp", true);
