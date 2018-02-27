@@ -43,10 +43,8 @@ function XmlToCsv (filePath) {
         try {
             xml = fs.readFileSync(filePath, 'utf8');
         } catch (err) {
-            console.log("Impossible d'ouvrir le fichier " + filePath);
-            process.exit();
+            throw new Error(err);
         }
-
         
         parseString(xml, (err, result) => {
             result.reponse.intrants.forEach(element => {
