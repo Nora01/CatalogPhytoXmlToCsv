@@ -1,0 +1,4 @@
+{
+  "url" : "http://www.data.gouv.fr/fr/datasets/donnees-ouvertes-du-catalogue-des-produits-phytopharmaceutiques-adjuvants-matieres-fertilisantes-et-support-de-culture-produits-mixtes-et-melanges-e-phy/",
+  "chemin_sortie_csv" : "output.csv"
+}

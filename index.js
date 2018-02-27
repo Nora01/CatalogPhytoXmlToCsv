@@ -2,6 +2,7 @@
 "use strict";
 
 //Initialisation des modules requis
+const config = require('./config/config.json');
 const xmlToCsv = require('./libs/xml-to-csv.js');
 const download = require('./libs/download.js');
 const File = require('./libs/file.js');
@@ -9,17 +10,6 @@ const folder = require('./libs/folder.js');
 const scrapper = require('./libs/web-scrapping.js');
 const unzip = require('./libs/unzip.js');
 const log = require('./libs/log.js');
-
-
-//URL où se situe le chemin à récupérer
-//@todo : A intégrer à l'interface CLI
-const url = "http://www.data.gouv.fr/fr/datasets/donnees-ouvertes-du-catalogue-des-produits-phytopharmaceutiques-adjuvants-matieres-fertilisantes-et-support-de-culture-produits-mixtes-et-melanges-e-phy/";
-
-//chemin vers le fichier de sortie
-//@todo : A intégrer à l'interface CLI
-const outputPath = 'output.csv';
-
-
 
 /**
  * Traitement principal. Effecue les actions suivantes :
@@ -39,8 +29,8 @@ const outputPath = 'output.csv';
     try {
         log("DEBUT").toInfo();
         //1) Récupération de l'URL du fichier .zip contenant les fichiers xml par scrapping
-        log("Analyse de la page " + url + "...").toInfo();
-        const zipfile = await scrapper(url).getFile();
+        log("Analyse de la page " + config.url + "...").toInfo();
+        const zipfile = await scrapper(config.url).getFile();
 
         //2) Téléchargemement du .zip
         log("Téléchargement du fichier " + zipfile + "...").toInfo();
@@ -52,11 +42,11 @@ const outputPath = 'output.csv';
 
         //4) Conversion xml vers csv de tous les fichiers xml trouvés dans le dossier
         log("Conversion des fichiers...").toInfo();
-        File(outputPath).erase();
+        File(config.chemin_sortie_csv).erase();
         folder(dir).getXmls().forEach(file => {
             log("Conversion du fichier "  + file + "...").toInfo();
             let data = xmlToCsv(dir + file);
-            File(outputPath).write(data);
+            File(config.chemin_sortie_csv).write(data);
         });
         log("FIN").toInfo();
     } catch (err) {
