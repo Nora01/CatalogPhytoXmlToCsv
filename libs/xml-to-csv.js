@@ -97,7 +97,7 @@ function XmlToCsv (filePath) {
             });
         });
         return csvData;
-    }
+    };
 
     /**
      * Mise à plat d'un tableau nesté
@@ -156,4 +156,4 @@ function XmlToCsv (filePath) {
     }
 
     return parse();
-};
+}

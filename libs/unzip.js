@@ -4,8 +4,6 @@
  */
 "use strict";
 const uz = require('adm-zip');
-const fs = require("fs");
-const log = require('./log.js');
 
 /**
  * Export du module

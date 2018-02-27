@@ -23,7 +23,7 @@ module.exports = download;
  * @param {function} cb - callback
  * @return {Promise<string>} chemin local où le fichier a été téléchargé
  */
-async function download (url, dest, cb){
+async function download (url, dest, cb) {
     /**
      * Retourne le nom complet (+extension) du fichier à télécharger
      *

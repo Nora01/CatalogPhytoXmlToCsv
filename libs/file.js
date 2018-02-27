@@ -16,7 +16,7 @@ module.exports = File;
  * Définition du chemin du fichier à utiliser
  * Renvoie les fonctions publiques utilisables sur cet objet. 
  *
- * @param {string} filepath - chemin du fichier
+ * @param {string} filePath - chemin du fichier
  * @return {Object} fonctions publiques utilisables
  */
 function File (filePath) {
@@ -42,7 +42,7 @@ function File (filePath) {
             }
             
         }
-    }
+    };
 
     /**
      * Ecriture de données dans le fichier  (a+ - Open file for reading and appending. The file is created if it does not exist.)
@@ -55,10 +55,10 @@ function File (filePath) {
         } catch (err) {
             if (err) throw err;
         }
-    }
+    };
 
     return {
         erase: erase,
         write: write
     }
-};
+}
