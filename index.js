@@ -2,13 +2,13 @@
 "use strict";
 
 //Initialisation des modules requis
-const xmlToCsv = require('./xml-to-csv.js');
-const download = require('./download.js');
-const File = require('./file.js');
-const folder = require('./folder.js');
-const scrapper = require('./web-scrapping.js');
-const unzip = require('./unzip.js');
-const log = require('./log.js');
+const xmlToCsv = require('./libs/xml-to-csv.js');
+const download = require('./libs/download.js');
+const File = require('./libs/file.js');
+const folder = require('./libs/folder.js');
+const scrapper = require('./libs/web-scrapping.js');
+const unzip = require('./libs/unzip.js');
+const log = require('./libs/log.js');
 
 
 //URL où se situe le chemin à récupérer
