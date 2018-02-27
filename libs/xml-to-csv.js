@@ -2,7 +2,7 @@
  * Module de récupération du lien de l'archive contenant les fichiers phyto xml
  * @module xml-to-csv
  */
-"use strict"
+"use strict";
 const fs = require('fs');
 const parseString = require('xml2js').parseString;
 
