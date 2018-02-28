@@ -11,14 +11,24 @@
 module.exports = log;
 
 function log(message) {
-	let event = new Date(Date.now())
+	let event = new Date(Date.now());
 
 	function toInfo () {
-		console.log("[" + event.toLocaleDateString('fr-FR') + " " + event.toLocaleTimeString() + "][INFO] " + message);
+		if (message === undefined) return "";
+		let formatting = "[" + event.toLocaleDateString('fr-FR') + " " + event.toLocaleTimeString() + "][INFO] " + message;
+		display(formatting);
+		return formatting;
 	}
 
 	function toError () {
-		console.log("[" + event.toLocaleDateString('fr-FR') + " " + event.toLocaleTimeString() + "][ERREUR] " + message);
+        if (message === undefined) return "";
+		let formatting = "[" + event.toLocaleDateString('fr-FR') + " " + event.toLocaleTimeString() + "][ERREUR] " + message;
+		display(formatting);
+		return formatting
+	}
+
+	function display(formatting) {
+		console.log(formatting);
 	}
 
 	return {
