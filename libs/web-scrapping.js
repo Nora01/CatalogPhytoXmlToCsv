@@ -70,8 +70,8 @@ function url (url) {
      * Connexion et parsing de la page.
      * Renvoie une promesse ES6. 
      * En savoir plus : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise
-
-     * @return {Promise<string>} contenu de la page 
+     *
+     * @return {Promise<string>} contenu de la page
      */
     async function processHtml() {
         return new Promise(
