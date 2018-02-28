@@ -1,0 +1,12 @@
+
+.idea/workspace.xml
+
+*.xml
+
+*.xsd
+
+*.txt
+
+*.iml
+
+.scannerwork/.sonar_lock
