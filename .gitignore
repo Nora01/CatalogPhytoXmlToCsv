@@ -10,7 +10,9 @@
 *.iml
 
 .scannerwork/.sonar_lock
-*/documents/*
-*/node_modules/*
-*/.scannerwork/*
-*/coverage/*
+/documents/*
+/node_modules/*
+/.scannerwork/*
+/coverage/*
+.nyc_output/*
+*.csv
