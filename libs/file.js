@@ -27,7 +27,12 @@ function File (filePath) {
      * @return {boolean} existence du fichier
      */
     function exists () {
-        return fs.existsSync(filePath);
+        try {
+            fs.accessSync(filePath, fs.constants.R_OK | fs.constants.W_OK);
+            return true;
+        } catch (err) {
+            return false;
+        }
     }
 
     /**
@@ -38,9 +43,8 @@ function File (filePath) {
             try {
                 fs.unlinkSync(filePath);
             } catch (err) {
-                if (err) throw err;
+                throw err;
             }
-            
         }
     };
 
@@ -48,12 +52,12 @@ function File (filePath) {
      * Ecriture de données dans le fichier  (a+ - Open file for reading and appending. The file is created if it does not exist.)
      */
     let write = function (data) {
-        if (data === undefined) return;
+        if (data === undefined || data === "") return;
         try {
             let fd = fs.openSync(filePath, 'a+');
             fs.appendFileSync(fd, data, 'utf8');
         } catch (err) {
-            if (err) throw err;
+            throw err;
         }
     };
 
