@@ -17,6 +17,7 @@ describe("L'affichage des logs", function () {
 
     it("n'affiche rien si aucun message n'est passé 2", function(){
         expect(log().toInfo()).toBe("");
+        expect(log().toError()).toBe("");
     });
 
     it("affiche une date correcte", function(){
