@@ -10,3 +10,7 @@
 *.iml
 
 .scannerwork/.sonar_lock
+*/documents/*
+*/node_modules/*
+*/.scannerwork/*
+*/coverage/*
