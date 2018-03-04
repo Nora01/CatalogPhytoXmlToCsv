@@ -50,12 +50,12 @@ const log = require('./libs/log.js');
         });
         log("FIN").toInfo();
     } catch (err) {
-        if (err) {
-            log(err).toError();
-            log("ERREUR DU SCRIPT. ARRET.").toError();
-            log("FIN").toError();
-            throw new Error(err);
-        }
+        log( err.message ).toError();
+        log( err.fileName ).toError();
+        log( err.lineNumber ).toError();
+        log( err.stack ).toError();
+        log("ERREUR DU SCRIPT. ARRET.").toError();
+        log("FIN").toError();
     }
 
 })();

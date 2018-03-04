@@ -42,11 +42,16 @@ async function download (url, dest, cb) {
         
         //Définition d'un chemin par défaut cross-plateform
         let homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
-        if (dest === undefined) {
+        if (dest === undefined || dest === '') {
             dest = homedir + "/" + getFilename(url);
         }
 
         let file = fs.createWriteStream(dest);
+
+        file.on('error', function(err){
+            fs.unlink(dest, (error) => new Error(error));
+            reject(new Error(err));
+        });
 
         //Téléchargement asynchrone du fichier. 
         https.get(url, function(response) {
@@ -56,13 +61,13 @@ async function download (url, dest, cb) {
             file.on('finish', function() {
                 file.close(cb);
                 resolve(dest);
-            },  (err) => reject(err));
+            },  (err) => reject(new Error(err)));
 
         })
         //Erreur de téléchargement, suppression du fichier et rejet de la promesse
         .on('error', function(err) {
-            fs.unlink(dest, (error) => reject(error));
-            reject(err);
+            fs.unlink(dest, (error) => new Error(error));
+            reject(new Error(err));
         });
     });
 }

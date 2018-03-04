@@ -30,7 +30,7 @@ function folder(dir) {
         try {
             dirFiles = fs.readdirSync(dir);
         } catch(err) {
-            if (err) throw err;
+            throw err;
         }
 
         //Retourne uniquement les fichiers XML

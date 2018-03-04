@@ -43,7 +43,7 @@ function File (filePath) {
             try {
                 fs.unlinkSync(filePath);
             } catch (err) {
-                throw err;
+                throw new Error(err);
             }
         }
     };
@@ -57,7 +57,7 @@ function File (filePath) {
             let fd = fs.openSync(filePath, 'a+');
             fs.appendFileSync(fd, data, 'utf8');
         } catch (err) {
-            throw err;
+            throw new Error(err);
         }
     };
 
