@@ -9,6 +9,7 @@ const File = require('./libs/file.js');
 const folder = require('./libs/folder.js');
 const scrapper = require('./libs/web-scrapping.js');
 const unzip = require('./libs/unzip.js');
+const ftp = require('./libs/ftp');
 const log = require('./libs/log.js');
 
 /**
@@ -17,6 +18,7 @@ const log = require('./libs/log.js');
  * 2) Téléchargemement du .zip
  * 3) Extraction du fichier dans un dossier temporaire
  * 4) Conversion xml vers csv de tous les fichiers xml trouvés dans le dossier
+ * 5) Envoi du fichier généré vers le serveur ftp
  *
  * Utilisation de async/await pour écriture synchrone de ce traitement asynchrone
  * En savoir plus : https://blog.xebia.fr/2017/11/14/asyncawait-une-meilleure-facon-de-faire-de-lasynchronisme-en-javascript/
@@ -27,10 +29,11 @@ const log = require('./libs/log.js');
  */
 (async () => {
     try {
+
         log("DEBUT").toInfo();
         //1) Récupération de l'URL du fichier .zip contenant les fichiers xml par scrapping
-        log("Analyse de la page " + config.url + "...").toInfo();
-        const zipfile = await scrapper(config.url).getFile();
+        log("Analyse de la page " + config.scrapping_lien.url + "...").toInfo();
+        const zipfile = await scrapper(config.scrapping_lien.url).getFile(config.scrapping_lien.regex);
 
         //2) Téléchargemement du .zip
         log("Téléchargement du fichier " + zipfile + "...").toInfo();
@@ -48,7 +51,18 @@ const log = require('./libs/log.js');
             let data = xmlToCsv(dir + file);
             File(config.chemin_sortie_csv).write(data);
         });
+
+        //5) Envoi du fichier généré vers le serveur ftp
+        log("Envoi du fichier " + config.chemin_sortie_csv + " vers le serveur ftp " + config.ftp.host + "...").toInfo();
+        let ftpConfig = {
+            host: config.ftp.host,
+            port: config.ftp.port,
+            user: config.ftp.user,
+            password: config.ftp.password
+        };
+        await ftp(ftpConfig).send(config.chemin_sortie_csv);
         log("FIN").toInfo();
+
     } catch (err) {
         log( err.message ).toError();
         log( err.fileName ).toError();
