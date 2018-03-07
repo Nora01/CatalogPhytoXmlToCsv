@@ -1,4 +1,13 @@
 {
-  "url" : "http://www.data.gouv.fr/fr/datasets/donnees-ouvertes-du-catalogue-des-produits-phytopharmaceutiques-adjuvants-matieres-fertilisantes-et-support-de-culture-produits-mixtes-et-melanges-e-phy/",
-  "chemin_sortie_csv" : "output.csv"
+  "scrapping_lien": {
+    "url" : "http://www.data.gouv.fr/fr/datasets/donnees-ouvertes-du-catalogue-des-produits-phytopharmaceutiques-adjuvants-matieres-fertilisantes-et-support-de-culture-produits-mixtes-et-melanges-e-phy/",
+    "regex": "^http.+decisionAMM.+zip"
+  },
+  "chemin_sortie_csv" : "output.csv",
+  "ftp": {
+    "host": "192.168.56.101",
+    "port": 21,
+    "user": "anonymous",
+    "password": "@anonymous"
+  }
 }
