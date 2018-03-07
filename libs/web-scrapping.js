@@ -27,9 +27,12 @@ function url (url) {
      * @async
      * @return {string} URL de l'archive 
      */
-    async function getFile() {
-       let html = await processHtml();
-       return getLink(html);
+    async function getFile(regex) {
+        if (regex === undefined || regex === "") {
+            throw new Error("Regex incorrecte");
+        }
+        let html = await processHtml();
+        return getLink(html, regex);
     }
 
     /**
@@ -39,7 +42,7 @@ function url (url) {
      * @param {string} html - contenu HTML de la page à analyser
      * @return {string} URL de l'archive 
      */
-    async function getLink(html) {
+    async function getLink(html, regex) {
         return new Promise((resolve, reject) => {
             try {
                 let $ = cheerio.load(html);
@@ -51,9 +54,10 @@ function url (url) {
             let $ = cheerio.load(html);
             let links = $('a');
             let downloadLink = links.filter((i, l) => {
-                return /^http.+decisionAMM.+zip/g.test($(l).attr('href'));
+                return new RegExp(regex).test($(l).attr('href'));
             });
             let link = $(downloadLink).attr("href");
+            console.log(link);
 
             if (link !== undefined) {
                 resolve(link);
