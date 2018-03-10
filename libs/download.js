@@ -14,7 +14,7 @@ module.exports = download;
 
 /**
  * Téléchargement asynchrone d'un fichier depuis une URL vers une destination locale
- * Renvoie une promesse ES6. 
+ * Renvoie une promesse ES6.
  * En savoir plus : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise
  *
  * @async
@@ -35,15 +35,14 @@ async function download (url, dest, cb) {
             return undefined;
         }
 
-        return parts[parts.length-1];   
+        return parts[parts.length-1];
     }
 
     return new Promise(function(resolve, reject){
-        
         //Définition d'un chemin par défaut cross-plateform
         let homedir = (process.platform === 'win32') ? process.env.HOMEPATH : process.env.HOME;
         if (dest === undefined || dest === '') {
-            dest = homedir + "/" + getFilename(url);
+            dest = homedir + "/" + getFilename();
         }
 
         let file = fs.createWriteStream(dest);
@@ -53,7 +52,7 @@ async function download (url, dest, cb) {
             reject(new Error(err));
         });
 
-        //Téléchargement asynchrone du fichier. 
+        //Téléchargement asynchrone du fichier.
         https.get(url, function(response) {
             response.pipe(file);
 

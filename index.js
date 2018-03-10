@@ -46,6 +46,7 @@ const log = require('./libs/log.js');
         //4) Conversion xml vers csv de tous les fichiers xml trouvés dans le dossier
         log("Conversion des fichiers...").toInfo();
         File(config.chemin_sortie_csv).erase();
+
         folder(dir).getXmls().forEach(file => {
             log("Conversion du fichier "  + file + "...").toInfo();
             let data = xmlToCsv(dir + file);
@@ -61,6 +62,7 @@ const log = require('./libs/log.js');
             password: config.ftp.password
         };
         await ftp(ftpConfig).send(config.chemin_sortie_csv);
+
         log("FIN").toInfo();
 
     } catch (err) {
@@ -71,5 +73,4 @@ const log = require('./libs/log.js');
         log("ERREUR DU SCRIPT. ARRET.").toError();
         log("FIN").toError();
     }
-
 })();

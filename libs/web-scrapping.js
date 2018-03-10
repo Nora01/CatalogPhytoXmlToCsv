@@ -14,7 +14,7 @@ module.exports = url;
 
 /**
  * URL de la page sur laquelle va s'effectuer le scrapping
- * Renvoie les fonctions publiques utilisables sur cet objet. 
+ * Renvoie les fonctions publiques utilisables sur cet objet.
  *
  * @param {string} url - URL de la page sur laquelle va s'effectuer le scrapping
  * @return {Object} fonctions publiques utilisables
@@ -25,7 +25,7 @@ function url (url) {
      * Retourne l'URL de l'archive
      *
      * @async
-     * @return {string} URL de l'archive 
+     * @return {string} URL de l'archive
      */
     async function getFile(regex) {
         if (regex === undefined || regex === "") {
@@ -40,25 +40,17 @@ function url (url) {
      * Dans tous les liens trouvés, utilise la regex suivante pour récupérer le bon lien : /^http.+decisionAMM.+zip/g
      *
      * @param {string} html - contenu HTML de la page à analyser
-     * @return {string} URL de l'archive 
+     * @return {string} URL de l'archive
      */
     async function getLink(html, regex) {
         return new Promise((resolve, reject) => {
-            try {
-                let $ = cheerio.load(html);
-            } catch (err) {
-                if (err) throw new Error(err);
-                reject();
-            }
 
-            let $ = cheerio.load(html);
+            let $ = cheerio.load(html)
             let links = $('a');
             let downloadLink = links.filter((i, l) => {
                 return new RegExp(regex).test($(l).attr('href'));
             });
             let link = $(downloadLink).attr("href");
-            console.log(link);
-
             if (link !== undefined) {
                 resolve(link);
             } else {
@@ -66,13 +58,11 @@ function url (url) {
                 throw new Error("aucun lien vers les fichiers phyto trouvés dans la page.");
             }
         });
-
-        
     }
 
     /**
      * Connexion et parsing de la page.
-     * Renvoie une promesse ES6. 
+     * Renvoie une promesse ES6.
      * En savoir plus : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise
      *
      * @return {Promise<string>} contenu de la page

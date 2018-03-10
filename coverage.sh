@@ -1,1 +1,1 @@
-nyc npm test && nyc report --reporter=html
+nyc --reporter=lcov --reporter=text-lcov  npm test && nyc report && nyc report --reporter=lcov --reporter=text-lcov

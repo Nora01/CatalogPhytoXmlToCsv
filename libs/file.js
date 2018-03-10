@@ -1,6 +1,5 @@
 /**
- * Module d'écriture de données dans un fichier 
-
+ * Module d'écriture de données dans un fichier
  * @module file
  */
 "use strict";
@@ -14,7 +13,7 @@ module.exports = File;
 
 /**
  * Définition du chemin du fichier à utiliser
- * Renvoie les fonctions publiques utilisables sur cet objet. 
+ * Renvoie les fonctions publiques utilisables sur cet objet.
  *
  * @param {string} filePath - chemin du fichier
  * @return {Object} fonctions publiques utilisables
@@ -22,7 +21,7 @@ module.exports = File;
 function File (filePath) {
 
     /**
-     * Vérification de l'existence du fichier 
+     * Vérification de l'existence du fichier
      *
      * @return {boolean} existence du fichier
      */

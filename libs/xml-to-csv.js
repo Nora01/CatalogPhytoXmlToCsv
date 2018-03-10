@@ -45,7 +45,7 @@ function XmlToCsv (filePath) {
         } catch (err) {
             throw new Error(err);
         }
-        
+
         parseString(xml, (err, result) => {
             result.reponse.intrants.forEach(element => {
                 types.forEach(t => {
@@ -53,27 +53,29 @@ function XmlToCsv (filePath) {
 
                     element[t.type][0][t.key].forEach(p => {
                         let currentProduct = "";
-                        currentProduct += getFlatProperty(p, "type-produit") + ";"
-                            + getFlatProperty(p, "numero-AMM") + ";"
-                            + getFlatProperty(p, "nom-produit") + ";"
+                        currentProduct += getNestedProperty(p, "type-produit") + ";"
+                            + getNestedProperty(p, "numero-AMM") + ";"
+                            + getNestedProperty(p, "nom-produit") + ";"
                             + getNestedProperty(p["autres-noms"], "nom") + ";"
-                            + getNestedProperty(p["titulaire"], "_") + ";"
-                            + getNestedProperty(p["type-commercial"], "_") + ";"
-                            + getNestedProperty(p["gamme-usage"], "_") + ";"
-                            + getNestedProperty(p["composition-integrale"], "nom")+ " (" + getNestedProperty(p["composition-integrale"], "_").split(" | ")[0] + ")" + ";"
-                            + getNestedProperty(p["fonctions"], "_") + ";"
-                            + getNestedProperty(p["type-formulations"], "_") + ";";
-
+                            + getNestedProperty(p["titulaire"]) + ";"
+                            + getNestedProperty(p["type-commercial"]) + ";"
+                            + getNestedProperty(p["gamme-usage"]) + ";"
+                            + getNestedProperty(p["composition-integrale"], "nom")
+                            + " (" + getNestedProperty(p["composition-integrale"],"", 0) + ") "
+                            + getNestedProperty(p["composition-integrale"],"", 1)+ getNestedProperty(p["composition-integrale"], "unite") +";"
+                            + getNestedProperty(p["fonctions"]) + ";"
+                            + getNestedProperty(p["type-formulations"]) + ";"
+                            + getNestedProperty(p["mentions-autorisees"]) + ";";
                         if (p["usages"] !== undefined && p["usages"][0]["usage"] !== undefined) {
                             p["usages"][0]["usage"].forEach(u => {
                                 csvData = csvData + currentProduct
                                     + getNestedProperty(u, "lib-court") + ";"
-                                    + getNestedProperty(u["identifiant-usage"], "_") + ";"
+                                    + getNestedProperty(u["identifiant-usage"]) + ";"
                                     + getNestedProperty(u, "date-decision") + ";"
-                                    + getNestedProperty(u["stade-cultural-min"], "_") + ";"
-                                    + getNestedProperty(u["stade-cultural-max"], "_") + ";"
-                                    + getNestedProperty(u["etat-usage"], "_") + ";"
-                                    + getNestedProperty(u["dose-retenue"], "_") + ";"
+                                    + getNestedProperty(u["stade-cultural-min"]) + ";"
+                                    + getNestedProperty(u["stade-cultural-max"]) + ";"
+                                    + getNestedProperty(u["etat-usage"]) + ";"
+                                    + getNestedProperty(u["dose-retenue"]) + ";"
                                     + getNestedProperty(u["dose-retenue"], "unite") + ";"
                                     + getNestedProperty(u, "delai-avant-recolte-jour") + ";"
                                     + getNestedProperty(u, "delai-avant-recolte-bbch") + ";"
@@ -81,11 +83,9 @@ function XmlToCsv (filePath) {
                                     + getNestedProperty(u, "date-fin-distribution") + ";"
                                     + getNestedProperty(u, "date-fin-utilisation") + ";"
                                     + getNestedProperty(u, "condition-emploi") + ";"
-                                    + getNestedProperty(u["ZNT-aquatique"], "_") + ";"
-                                    + getNestedProperty(u["ZNT-arthropodes-non-cibles"], "_") + ";"
-                                    + getNestedProperty(u["ZNT-plantes-non-cibles"], "_") + ";"
-                                    + getNestedProperty(u["mentions-autorisees"], "_") + ";"
-
+                                    + getNestedProperty(u["ZNT-aquatique"]) + ";"
+                                    + getNestedProperty(u["ZNT-arthropodes-non-cibles"]) + ";"
+                                    + getNestedProperty(u["ZNT-plantes-non-cibles"]) + ";"
                                     + "\n";
                             });
 
@@ -112,9 +112,9 @@ function XmlToCsv (filePath) {
     /*
      * Récupèration de la valeur d'un noeud ou d'un attribut nesté
      * L'utilisation de cette fonction n'est pas très intuitive.
-     * Il faut donner en premier paramètre l'objet représentant le noeud de premier niveau, 
+     * Il faut donner en premier paramètre l'objet représentant le noeud de premier niveau,
      * puis en second paramètre le nom du noeud (s'il ne contient pas d'attribut), ou "_" (si le noeud contient des attributs)
-     * 
+     *
      * @todo : fonction à réécrire pour simplification
      *
      * @param {object} obj noeud niveau 1
@@ -122,7 +122,13 @@ function XmlToCsv (filePath) {
      * @param {array} out sortie
      * @return {string} valeur
      */
-    function getNestedProperty(obj, key, out) {
+    function getNestedProperty(obj, key, index, out) {
+
+
+        if (key === undefined || key === "") {
+            key = "_";
+        }
+
         let i,
             proto = Object.prototype,
             ts = proto.toString,
@@ -135,24 +141,22 @@ function XmlToCsv (filePath) {
                 if (i === key) {
                     out.push(obj[i]);
                 } else if ('[object Array]' === ts.call(obj[i]) || '[object Object]' === ts.call(obj[i])) {
-                    getNestedProperty(obj[i], key, out);
+                    getNestedProperty(obj[i], key, index, out);
                 }
             }
         }
 
         out =  flatten(out);
-        return out.join(" | ");
-    }
 
-    /*
-     * Récupèration de la valeur d'un noeud
+        if (index !== undefined && index >= 0) {
+            if (out[index] ===  undefined) {
+                return '';
+            }
+            return out[index].replace(/\n/g, "").replace(/\r\n/g, "");
+        } else {
+            return out.join(" | ").replace(/\n/g, "").replace(/\r\n/g, "");
+        }
 
-     * @param {object} obj noeud
-     * @param {string} property propriété
-     * @return {string} valeur
-     */
-    function getFlatProperty(data, property) {
-        return data[property];
     }
 
     return parse();

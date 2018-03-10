@@ -13,7 +13,7 @@ module.exports = unzip;
 
 /**
  * Extraction du fichier donné dans le repertoire /temp
- * Renvoie une promesse ES6. 
+ * Renvoie une promesse ES6.
  * En savoir plus : https://developer.mozilla.org/fr/docs/Web/JavaScript/Reference/Objets_globaux/Promise
  *
  * @async

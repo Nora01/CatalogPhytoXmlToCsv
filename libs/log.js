@@ -32,7 +32,7 @@ function log(message) {
 	}
 
 	return {
-		toInfo: toInfo, 
+		toInfo: toInfo,
 		toError: toError
 	}
 }

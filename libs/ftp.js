@@ -1,3 +1,7 @@
+/**
+ * Module d'envoi d'un fichier vers un serveur FTP distant
+ * @module ftp
+ */
 "use strict";
 
 const jsftp = require("jsftp");
@@ -33,13 +37,18 @@ function ftp(infos) {
         return this;
     }
 
-    //Envoi
+    /**
+     * Envoi du fichier donné en paramètre au serveur FTP
+     *
+     * @param file
+     * @returns {Promise<>}
+     */
     function send(file) {
         return new Promise(function(resolve, reject) {
             s.put(file, path + file, err => {
                 if (!err) {
                     s.raw("QUIT");
-                    resolve(file);
+                    resolve();
                 } else {
                     reject(new Error(err));
                 }
