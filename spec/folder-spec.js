@@ -10,14 +10,13 @@ describe("La fonction getXML", function () {
 
     it("retourne un tableau vide si aucun fichier XML n'est trouvé", function(){
         const folderpath = process.cwd() + '/spec/testing/';
-        let files = folder(folderpath).getXmls();
-        expect(files).toEqual([]);
+        expect(folder(folderpath).getXmls()).toEqual([]);
     });
 
     it("retourne une erreur si le dossier est inaccessible", function(){
         const folderpath = process.cwd() + '/spec/notthere/';
         expect(function(){
-            let files = folder(folderpath).getXmls();
+            folder(folderpath).getXmls();
         }).toThrow();
     });
 });
